@@ -7,7 +7,7 @@ Set auto payout
 
 set your pol address on 0x4da2a435251da9f103cc3fb2452a80c365e0d1fd.g
 
-#t2xb-3vc4 is my ref code that can reduce fees
+#t2xb-3vc4 is my ref code that can reduce 0.75% fee
 
 cpu-threads is up on your vps cpu
 ```
