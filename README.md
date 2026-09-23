@@ -1,7 +1,7 @@
 # srbvps
 SRBMiner run on vps
 # srbvps
-register account on : (https://unmineable.com/coins/POL)
+register account on : [(https://unmineable.com)](https://unmineable.com/?ref=U-AJUCZB)
 
 Set auto payout
 
