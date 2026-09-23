@@ -1,5 +1,5 @@
 # srbvps
-SRBMiner run on vps
+SRBMiner run on Linux vps
 # srbvps
 register account on : [(https://unmineable.com)](https://unmineable.com/?ref=U-AJUCZB)
 
