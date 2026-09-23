@@ -1,5 +1,6 @@
 # srbvps
-SRBMiner run on Linux vps
+WARNING: Using SRBMINER on VPS may get your account banned. Use at your own risk.
+警告：VPS 上使用 SRBMINER 可能違反供應商規定，帳戶有被封鎖的風險，請自行承擔責任。
 # srbvps
 register account on : [(https://unmineable.com)](https://unmineable.com/?ref=U-AJUCZB)
 
