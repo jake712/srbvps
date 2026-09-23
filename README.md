@@ -6,6 +6,7 @@ register account on : [(https://unmineable.com)](https://unmineable.com/?ref=U-A
 Set auto payout
 
 replace your pol address on 0x4da2a435251da9f103cc3fb2452a80c365e0d1fd.g
+
 .g you can set as your worker name
 
 #t2xb-3vc4 is my ref code that can reduce 0.75% fee
