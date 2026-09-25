@@ -30,3 +30,4 @@ or
 sudo cpulimit -l 79 -- ./SRBMiner-Multi-3-6-9/SRBMiner-MULTI --algorithm xelishashv3 --pool xelishash.unmineable.com:3333 --wallet POL:0x4da2a435251da9f103cc3fb2452a80c365e0d1fd.d#t2xb-3vc4 --api-enable --cpu-threads 1 --disable-worker-watchdog --disable-gpu --extended-log --large-pages --msr enable --randomx-use-1gb-pages --api-port 60131
 ```
 打賞.donate地址:https://jake712.com/2026/09/15/%e6%8d%90%e6%ac%be%e6%b8%ac%e8%a9%a6%e5%9c%b0%e5%9d%80/
+Youtube: https://www.youtube.com/watch?v=-YPRmNPhqCQ
