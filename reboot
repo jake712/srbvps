@@ -1,0 +1,32 @@
+sudo bash -c '
+DIR=$(pwd)
+BIN="$DIR/SRBMiner-Multi-3-4-6/SRBMiner-MULTI"
+
+chmod +x $BIN
+systemctl stop srbminer 2>/dev/null
+systemctl disable srbminer 2>/dev/null
+
+cat > /etc/systemd/system/srbminer.service <<EOF
+[Unit]
+Description=SRBMiner XelisHash AutoStart
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=$DIR
+ExecStart=$BIN --algorithm xelishashv3 --pool xelishash.unmineable.com:3333 --wallet POL:0x4da2a435251da9f103cc3fb2452a80c365e0d1fd.rm#t2xb-3vc4 --api-enable --disable-worker-watchdog --cpu-threads 1 --extended-log --large-pages --msr enable --randomx-use-1gb-pages --api-port 60131
+CPUQuota=79%
+Restart=always
+RestartSec=10
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl enable --now srbminer
+echo "=== 安裝完成 ==="
+systemctl status srbminer --no-pager
+'
