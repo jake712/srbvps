@@ -1,25 +1,32 @@
 sudo bash -c '
+# ========== 在這裡改你的設定 ==========
+WALLET="0x4da2a435251da9f103cc3fb2452a80c365e0d1fd"
+WORKER="rm"
+REF_CODE="t2xb-3vc4"
+# =====================================
+
 DIR=$(pwd)
 BIN="$DIR/SRBMiner-Multi-3-4-6/SRBMiner-MULTI"
+FULL_WALLET="POL:${WALLET}.${WORKER}#${REF_CODE}"
 
-chmod +x $BIN
+# 如果不想用邀請碼，把上面改成這樣: FULL_WALLET="POL:${WALLET}.${WORKER}"
+
+chmod +x $BIN 2>/dev/null
 systemctl stop srbminer 2>/dev/null
-systemctl disable srbminer 2>/dev/null
 
 cat > /etc/systemd/system/srbminer.service <<EOF
 [Unit]
-Description=SRBMiner XelisHash AutoStart
+Description=SRBMiner XelisHash
 After=network.target
 
 [Service]
 Type=simple
 User=root
 WorkingDirectory=$DIR
-ExecStart=$BIN --algorithm xelishashv3 --pool xelishash.unmineable.com:3333 --wallet POL:0x4da2a435251da9f103cc3fb2452a80c365e0d1fd.rm#t2xb-3vc4 --api-enable --disable-worker-watchdog --cpu-threads 1 --extended-log --large-pages --msr enable --randomx-use-1gb-pages --api-port 60131
+ExecStart=$BIN --algorithm xelishashv3 --pool xelishash.unmineable.com:3333 --wallet $FULL_WALLET --api-enable --disable-worker-watchdog --cpu-threads 1 --extended-log --large-pages --msr enable --randomx-use-1gb-pages --api-port 60131
 CPUQuota=79%
 Restart=always
 RestartSec=10
-LimitNOFILE=65535
 
 [Install]
 WantedBy=multi-user.target
@@ -27,6 +34,7 @@ EOF
 
 systemctl daemon-reload
 systemctl enable --now srbminer
-echo "=== 安裝完成 ==="
+echo "=== 已套用 ==="
+echo "錢包: $FULL_WALLET"
 systemctl status srbminer --no-pager
 '
