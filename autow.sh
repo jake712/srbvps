@@ -18,7 +18,7 @@ REF_CODE="t2xb-3vc4"
 if [ -f "/root/SRBMiner-Multi-3-6-9/SRBMiner-MULTI" ]; then
   MINER_DIR="/root/SRBMiner-Multi-3-6-9"
   MINER_BIN="/root/SRBMiner-Multi-3-6-9/SRBMiner-MULTI"
-elif [ -f "./SRBMiner-Multi-3-4-6/SRBMiner-MULTI" ]; then
+elif [ -f "./SRBMiner-Multi-3-6-9/SRBMiner-MULTI" ]; then
   MINER_DIR="$(pwd)/SRBMiner-Multi-3-6-9"
   MINER_BIN="$(pwd)/SRBMiner-Multi-3-6-9/SRBMiner-MULTI"
 else
