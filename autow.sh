@@ -67,7 +67,7 @@ After=network.target
 [Service]
 Type=exec
 WorkingDirectory=$MINER_DIR
-ExecStart=$MINER_BIN --algorithm $ALGO --pool $POOL --wallet $FULL_WALLET --api-enable --disable-worker-watchdog --cpu-threads 1 --extended-log --large-pages --msr enable --randomx-use-1gb-pages --api-port $API_PORT
+ExecStart=$MINER_BIN --algorithm $ALGO --pool $POOL --wallet $FULL_WALLET --api-enable --disable-worker-watchdog --cpu-threads 1 --extended-log --msr enable --randomx-use-1gb-pages --api-port $API_PORT
 Restart=always
 RestartSec=10
 CPUQuota=$CPU_QUOTA
