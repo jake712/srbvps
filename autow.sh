@@ -15,12 +15,12 @@ BASE_WALLET="0x4da2a435251da9f103cc3fb2452a80c365e0d1fd"
 REF_CODE="t2xb-3vc4"
 
 # === 自動偵測路徑 ===
-if [ -f "/root/SRBMiner-Multi-3-4-6/SRBMiner-MULTI" ]; then
-  MINER_DIR="/root/SRBMiner-Multi-3-4-6"
-  MINER_BIN="/root/SRBMiner-Multi-3-4-6/SRBMiner-MULTI"
+if [ -f "/root/SRBMiner-Multi-3-6-9/SRBMiner-MULTI" ]; then
+  MINER_DIR="/root/SRBMiner-Multi-3-6-9"
+  MINER_BIN="/root/SRBMiner-Multi-3-6-9/SRBMiner-MULTI"
 elif [ -f "./SRBMiner-Multi-3-4-6/SRBMiner-MULTI" ]; then
-  MINER_DIR="$(pwd)/SRBMiner-Multi-3-4-6"
-  MINER_BIN="$(pwd)/SRBMiner-Multi-3-4-6/SRBMiner-MULTI"
+  MINER_DIR="$(pwd)/SRBMiner-Multi-3-6-9"
+  MINER_BIN="$(pwd)/SRBMiner-Multi-3-6-9/SRBMiner-MULTI"
 else
   echo "❌ 找不到 SRBMiner-MULTI"
   exit 1
