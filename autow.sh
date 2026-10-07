@@ -1,5 +1,5 @@
 #!/bin/bash
-# SRBMiner 開機自啟動 - 修正穩定版 V3
+# SRBMiner 開機自啟動 - 防OOM穩定版 V4
 set -e
 
 if [ "$EUID" -ne 0 ]; then echo "請用 sudo / root 執行"; exit 1; fi
@@ -10,6 +10,26 @@ CPU_QUOTA="79%"
 API_PORT="60131"
 BASE_WALLET="0x4da2a435251da9f103cc3fb2452a80c365e0d1fd"
 REF_CODE="t2xb-3vc4"
+SWAP_SIZE="4G"
+
+# === 自動補 Swap 防 OOM ===
+ensure_swap() {
+  local have_swap=$(free -m | awk '/Swap:/ {print $2}')
+  if [ "$have_swap" -lt 500 ]; then
+    echo "⚠️ 偵測到 Swap 不足 (<500MB)，建立 ${SWAP_SIZE} Swap..."
+    if [! -f /swapfile ]; then
+      fallocate -l $SWAP_SIZE /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=4096
+      chmod 600 /swapfile
+      mkswap /swapfile
+    fi
+    swapon /swapfile || true
+    grep -q "/swapfile" /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+    echo "✅ Swap 已建立: $(free -h | grep Swap)"
+  else
+    echo "✅ Swap 已存在: $(free -h | grep Swap)"
+  fi
+}
+ensure_swap
 
 # === 尋找礦工目錄 ===
 if [ -f "/root/SRBMiner-Multi-3-6-9/SRBMiner-MULTI" ]; then
@@ -46,10 +66,10 @@ FULL_WALLET="POL:${BASE_WALLET}.${WORKER}#${REF_CODE}"
 echo "✅ Worker: $WORKER"
 echo "✅ Wallet: $FULL_WALLET"
 
-# === 建立 systemd 服務 ===
+# === 建立 systemd 服務 - 防 OOM 版 ===
 cat > /etc/systemd/system/srbminer.service <<EOF
 [Unit]
-Description=SRBMiner XelisHashv3 - Worker $WORKER
+Description=SRBMiner XelisHashv3 Anti-OOM - Worker $WORKER
 After=network-online.target
 Wants=network-online.target
 StartLimitIntervalSec=0
@@ -59,11 +79,19 @@ Type=simple
 User=root
 WorkingDirectory=$MINER_DIR
 ExecStartPre=-/sbin/modprobe msr
-ExecStart=$MINER_BIN --algorithm $ALGO --pool $POOL --wallet $FULL_WALLET --api-enable --cpu-threads 0 --extended-log --api-port $API_PORT
+# 關鍵: threads 0 改 1, 去掉大頁面參數，極限省 RAM
+ExecStart=$MINER_BIN --algorithm $ALGO --pool $POOL --wallet $FULL_WALLET --api-enable --cpu-threads 1 --disable-gpu --disable-worker-watchdog --api-port $API_PORT
+
+# === 防 OOM 重啟核心 ===
 Restart=always
-RestartSec=10
-CPUQuota=$CPU_QUOTA
+RestartSec=15
 TimeoutStopSec=30
+CPUQuota=$CPU_QUOTA
+MemoryHigh=1500M
+MemoryMax=2200M
+MemorySwapMax=4G
+OOMScoreAdjust=-300
+
 StandardOutput=journal
 StandardError=journal
 
@@ -75,9 +103,11 @@ systemctl daemon-reload
 systemctl enable srbminer
 systemctl restart srbminer
 
-sleep 2
-systemctl status srbminer --no-pager -l | head -n 30
+sleep 3
+systemctl status srbminer --no-pager -l | head -n 40
 echo ""
-echo "========== 完成，重開機自動啟動已設定 =========="
+echo "========== V4 防 OOM 版完成 =========="
+free -h
 echo "查看日誌: journalctl -u srbminer -f -n 100"
 echo "查看算力: curl -s http://127.0.0.1:${API_PORT} | jq"
+echo "檢查 OOM: dmesg | grep -i oom"
