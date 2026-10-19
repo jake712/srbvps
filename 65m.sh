@@ -11,7 +11,7 @@ API_PORT="60131"
 BASE_WALLET="0x4da2a435251da9f103cc3fb2452a80c365e0d1fd"
 REF_CODE="t2xb-3vc4"
 RESTART_INTERVAL="12h"   # 定時重啟間隔
-MEMORY_MAX="400M"        # 記憶體上限 (可依你的 VPS 總 RAM 調整，例如 512M VPS 設 400M)
+MEMORY_MAX="110M"        # 記憶體上限 (可依你的 VPS 總 RAM 調整，例如 512M VPS 設 400M)
 
 # === 尋找礦工目錄 ===
 if [ -f "/root/SRBMiner-Multi-3-6-9/SRBMiner-MULTI" ]; then
